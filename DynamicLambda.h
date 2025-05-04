@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CmsLogChannels.h"
 #include "UObject/Class.h"
 #include "Subsystems/EngineSubsystem.h"
 #include "UObject/UObjectArray.h"
@@ -67,7 +66,9 @@ public:
         NewDynamicLambda->SetFlags(RF_Transient);
         NewDynamicLambda->SetupLambda(Lambda);
         Class->AddFunctionToFunctionMap(NewDynamicLambda, NewDynamicLambda->GetFName());
-        RegisterDynamicLambdaFunction(Owner, NewDynamicLambda);
+        if (Owner) {
+            RegisterDynamicLambdaFunction(Owner, NewDynamicLambda);
+        }
         FScriptDelegate ScriptDelegate;
         ScriptDelegate.BindUFunction(this, NewDynamicLambda->GetFName());
         return ScriptDelegate;
